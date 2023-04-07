@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
       // routes: {'/': (context) => LoginPage()},
       theme: ThemeData(
         primaryColor: kPrimaryColor,
+        appBarTheme: AppBarTheme(backgroundColor: kPrimaryColor),
       ),
       debugShowCheckedModeBanner: false,
       home: Scaffold(

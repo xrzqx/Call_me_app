@@ -12,17 +12,35 @@ class BtmNav extends StatelessWidget {
   // final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
+    // return TextButton(
+    //   height: 55,
+    //   color: kPrimaryColor,
+    //   onPressed: press,
+    //   child: Text(
+    //     "$text",
+    //     style: TextStyle(
+    //       color: Colors.white,
+    //       fontSize: 18,
+    //     ),
+    //   ),
+    // );
+    return SizedBox(
       height: 55,
-      color: kPrimaryColor,
-      onPressed: press,
-      child: Text(
-        "$text",
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 18,
-        ),
-      ),
+      child: TextButton(
+        onPressed: press,
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(kPrimaryColor),
+        ), 
+        child: 
+        Text(
+          "$text",
+          style: TextStyle(color: Colors.white,fontSize: 18)
+        )
+
+      )
     );
+
+
+
   }
 }

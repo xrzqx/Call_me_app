@@ -23,7 +23,7 @@ class EditProfile extends StatelessWidget {
           ),
         ),
         actions: [
-          FlatButton(
+          TextButton(
             onPressed: () {
               /*...*/
             },

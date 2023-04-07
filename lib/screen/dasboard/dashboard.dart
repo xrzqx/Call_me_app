@@ -1,3 +1,4 @@
+import 'package:call_me/constants.dart';
 import 'package:call_me/screen/dasboard/material/ListViewDrawer.dart';
 import 'package:call_me/screen/dasboard/material/body.dart';
 import 'package:call_me/screen/search/search.dart';
@@ -11,6 +12,7 @@ class Dashboard extends StatelessWidget {
       backgroundColor: Colors.white,
       drawer: ListDrawer(),
       appBar: AppBar(
+        // backgroundColor: kPrimaryColor,
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(

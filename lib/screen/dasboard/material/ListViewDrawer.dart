@@ -141,7 +141,7 @@ class ListDrawer extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: kPrimaryColor,
                     ),
-                    child: FlatButton(
+                    child: TextButton(
                       child: Text(
                         "Log out",
                         style: TextStyle(

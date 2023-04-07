@@ -19,7 +19,7 @@ class ShowProfile extends StatelessWidget {
           ),
         ),
         actions: [
-          FlatButton(
+          TextButton(
             onPressed: () {
               /*...*/
             },

@@ -9,14 +9,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
-        // decoration: BoxDecoration(
-        //   color: Colors.green,
-        // ),
         child: Column(
-          // decoration: BoxDecoration(
-          //   color: Colors.green,
-          // ),
-          // child
           children: <Widget>[
             Center(
               child: Container(
@@ -137,23 +130,24 @@ class Btmnav extends StatelessWidget {
               ],
             ),
           ),
+
           Positioned(
             bottom: 0,
             left: 0,
             right: 0,
             child: Container(
-              height: 55,
+              // height: size.height *0.1,
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 color: kPrimaryColor,
               ),
               child: Column(
                 children: [
-                  FlatButton(
+                  TextButton(
                     child: Container(
                       // width: size.width,
                       alignment: Alignment.center,
-                      height: size.height * 0.08,
+                      height: size.height * 0.05,
                       // decoration: BoxDecoration(
                       //   color: Colors.green,
                       // ),
@@ -178,6 +172,7 @@ class Btmnav extends StatelessWidget {
               ),
             ),
           ),
+          
         ],
       ),
     );

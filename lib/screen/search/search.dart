@@ -30,6 +30,7 @@ class _SearchState extends State<Search> {
                 ),
                 child: Row(
                   children: [
+                    //difine Seach bar
                     Container(
                       width: 300,
                       height: 50,
@@ -44,7 +45,7 @@ class _SearchState extends State<Search> {
                         ),
                       ),
                       child: Row(
-                        children: [
+                        children: <Widget>[
                           Container(
                             margin: EdgeInsets.only(
                               left: kDefaultMargin,
@@ -53,27 +54,40 @@ class _SearchState extends State<Search> {
                                 SvgPicture.asset("assets/icons/search20.svg"),
                           ),
                           Container(
-                            margin: EdgeInsets.only(
-                              left: 10,
-                            ),
-                            child: Text(
-                              "Search",
-                              style: TextStyle(color: Color(0xFFA5A5A5)),
-                            ),
+                            child: Expanded(
+                              child: Container(
+                                margin: EdgeInsets.only(
+                                  left: kDefaultMargin,
+                                  right: kDefaultMargin,
+                                ), 
+                                child: TextField(
+                                  style: TextStyle(
+                                    fontSize: 18
+                                    ),
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: "Search"
+                                    )
+                                  ),
+                              ),
+                              ),
                           ),
                         ],
                       ),
                     ),
-                    FlatButton(
-                      splashColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      height: 50,
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Text(
-                        "Cancel",
-                        style: TextStyle(color: Colors.red, fontSize: 16),
+                    // define Cancel Button
+                    Container(
+                      margin: EdgeInsets.only(
+                        left: kDefaultMargin,
+                      ),
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          "Cancel",
+                          style: TextStyle(color: Colors.red, fontSize: 16),
+                        ),
                       ),
                     ),
                   ],

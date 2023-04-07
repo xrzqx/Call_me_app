@@ -21,7 +21,7 @@ class ResetPassword extends StatelessWidget {
           ),
         ),
         actions: [
-          FlatButton(
+          TextButton(
             onPressed: () {
               /*...*/
             },
