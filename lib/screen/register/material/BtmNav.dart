@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 
 class BtmNav extends StatelessWidget {
   const BtmNav({
-    Key key,
-    this.press,
-    this.text,
-  }) : super(key: key);
+    // required Key key,
+    required this.press,
+    required this.text,
+  }) ;
+  // : super(key: key);
   final Function press;
   final String text;
   // final _formKey = GlobalKey<FormState>();
@@ -27,7 +28,7 @@ class BtmNav extends StatelessWidget {
     return SizedBox(
       height: 55,
       child: TextButton(
-        onPressed: press,
+        onPressed: () => {press()},
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(kPrimaryColor),
         ), 

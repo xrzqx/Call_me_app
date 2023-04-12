@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 
 class EditProfileBody extends StatelessWidget {
   const EditProfileBody({
-    Key key,
-    this.nama,
-    this.phone,
-    this.email,
-  }) : super(key: key);
+    // Key key,
+    required this.nama,
+    required this.phone,
+    required this.email,
+  }) ;
+  // : super(key: key);
   final String nama, phone, email;
   @override
   Widget build(BuildContext context) {

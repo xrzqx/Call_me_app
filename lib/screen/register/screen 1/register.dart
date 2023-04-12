@@ -2,14 +2,20 @@ import 'package:call_me/constants.dart';
 import 'package:call_me/screen/register/material/BtmNav.dart';
 import 'package:call_me/screen/register/material/navbar.dart';
 import 'package:call_me/screen/register/screen%202/register.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../../../model/User/users.dart';
+// import 'package:flutter/model/User/users.dart';
 
 // import 'body.dart';
 
 final _formKey = GlobalKey<FormState>();
+Users user_stat = Users();
 
 class Register extends StatelessWidget {
   // final _formKey = GlobalKey<_RegisBodyState>();
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -17,15 +23,22 @@ class Register extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: RegisNavbar(size: size),
       body: RegisBody(),
+      // bottomNavigationBar: ,
       bottomNavigationBar: BtmNav(
+        // key: _formKey,
         text: "Continue",
-        press: () {
-          if (_formKey.currentState.validate()) {
-            // Process data.
+        press: () async {
+          if (_formKey.currentState!.validate()) {
+            // User? user = await registerUsingEmailPassword(
+            //   email: _emailTextController.text,
+            //   password: _passwordTextController.text,
+            //   name: 'User Test'
+            // );
+            // // Process data.
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => Register2(),
+                builder: (context) => Register2(user_stat),
               ),
             );
           }
@@ -61,7 +74,7 @@ class _RegisBodyState extends State<RegisBody> {
               Container(
                 margin: EdgeInsets.only(
                   left: kDefaultMargin,
-                  top: 30,
+                  top: 10,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -115,9 +128,11 @@ class _RegisBodyState extends State<RegisBody> {
                               hintText: "email",
                             ),
                             validator: (value) {
-                              if (value.isEmpty) {
+                              if (value == null || value.isEmpty) {
                                 return 'Please enter some text';
                               }
+                              user_stat.Email = value;
+                              
                               return null;
                             },
                           ),
@@ -146,11 +161,13 @@ class _RegisBodyState extends State<RegisBody> {
                               hintText: "password",
                             ),
                             validator: (value) {
-                              if (value.isEmpty) {
+                              if (value == null || value.isEmpty) {
                                 return 'Please enter some text';
                               }
+                              user_stat.Password = value;
                               return null;
                             },
+                            obscureText: true
                           ),
                         ],
                       ),
@@ -177,11 +194,18 @@ class _RegisBodyState extends State<RegisBody> {
                               hintText: "password",
                             ),
                             validator: (value) {
-                              if (value.isEmpty) {
+                              if (value == null || value.isEmpty) {
                                 return 'Please enter some text';
                               }
+                              if (user_stat.Password != value) {
+                                return 'Password doesnt match!!';
+                              }
+                              // if (_passwordTextController.text != value) {
+                              //   return 'Password doesnt match!!';
+                              // }
                               return null;
                             },
+                            obscureText: true
                           ),
                         ],
                       ),
@@ -189,6 +213,7 @@ class _RegisBodyState extends State<RegisBody> {
                   ],
                 ),
               ),
+              
             ],
           ),
         ),

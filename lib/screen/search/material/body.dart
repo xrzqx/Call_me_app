@@ -44,12 +44,12 @@ class Body extends StatelessWidget {
           ListBox(
             nama: "alfareza",
             press: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ShowProfile(),
-                ),
-              );
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => ShowProfile(),
+              //   ),
+              // );
             },
           ),
           ListBox(
@@ -155,10 +155,11 @@ class Body extends StatelessWidget {
 
 class ListBox extends StatelessWidget {
   const ListBox({
-    Key key,
-    this.nama,
-    this.press,
-  }) : super(key: key);
+    // Key key,
+    required this.nama,
+    required this.press,
+  }) ;
+  // : super(key: key);
 
   final String nama;
   final Function press;
@@ -169,7 +170,7 @@ class ListBox extends StatelessWidget {
     return Container(
       // height: size.height * 0.04,
       child: GestureDetector(
-        onTap: press,
+        onTap: press(),
         child: Column(
           children: [
             Container(

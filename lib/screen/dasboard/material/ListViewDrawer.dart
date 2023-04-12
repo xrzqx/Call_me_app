@@ -1,13 +1,20 @@
 import 'package:call_me/constants.dart';
 import 'package:call_me/main.dart';
+import 'package:call_me/screen/dasboard/dashboard.dart';
 import 'package:call_me/screen/dasboard/password.dart';
 import 'package:call_me/screen/editprofile/editprofile.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-//
-
 class ListDrawer extends StatelessWidget {
+  // ListDrawer(User? data);
+  // User? user = data;
+  final User? user;
+  const ListDrawer({super.key, this.user});
+  // ListDrawer(String? displayName, String? email);
+  // String? displayName;
+  // String? email;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -16,45 +23,49 @@ class ListDrawer extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: <Widget>[
           Container(
-            height: size.height * 0.26,
+            height: size.height * 0.20,
             child: DrawerHeader(
               child: Stack(
                 // crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Align(
                     child: Container(
-                      alignment: Alignment.centerRight,
+                      alignment: Alignment.topRight,
                       margin: EdgeInsets.only(
                         right: 30,
+                        // bottom: 50,
                       ),
-                      child: SvgPicture.asset("assets/icons/logo_drawer.svg"),
+                      child: SvgPicture.asset("assets/icons/logo_drawer.svg",height: size.height * 0.10, width: size.width * 0.10,),
                     ),
                   ),
-                  Align(
-                    child: Container(
-                      child: IconButton(
-                        splashColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        icon: SvgPicture.asset("assets/icons/edit_drawer.svg"),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => EditProfile(),
-                            ),
-                          );
-                        },
-                      ),
-                      alignment: Alignment.centerRight,
-                      // margin: EdgeInsets.only(
-                      //   right: kDefaultMargin,
-                      // ),
-                    ),
-                  ),
+                  // Align(
+                  //   child: Container(
+                  //     child: IconButton(
+                  //       splashColor: Colors.transparent,
+                  //       highlightColor: Colors.transparent,
+                  //       icon: SvgPicture.asset("assets/icons/edit_drawer.svg"),
+                  //       onPressed: () {
+                  //         Navigator.push(
+                  //           context,
+                  //           MaterialPageRoute(
+                  //             builder: (context) => EditProfile(),
+                  //           ),
+                  //         );
+                  //       },
+                  //     ),
+                  //     alignment: Alignment.centerRight,
+                  //     // margin: EdgeInsets.only(
+                  //     //   right: kDefaultMargin,
+                  //     // ),
+                  //   ),
+                  // ),
                   ProfileDrawer(
-                    nama: "Alfareza dito",
-                    phone: "+62888555888",
-                    email: "dito05@gmail.com",
+                    // nama: user!.displayName.toString(),
+                    // nama: data!.displayName.toString(),
+                    nama: user!.displayName.toString(),
+                    // phone: "+62888555888",
+                    // email: user!.email.toString(),
+                    email: user!.email.toString(),
                   ),
                 ],
               ),
@@ -63,37 +74,6 @@ class ListDrawer extends StatelessWidget {
               ),
             ),
           ),
-          // GestureDetector(
-          //   onTap: () {
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(
-          //         builder: (context) => ResetPassword(),
-          //       ),
-          //     );
-          //   },
-          //   child: Container(
-          //     padding: EdgeInsets.only(
-          //       left: kDefaultMargin,
-          //       top: 10,
-          //       bottom: 10,
-          //     ),
-          //     decoration: BoxDecoration(
-          //       color: Colors.white,
-          //     ),
-          //     child: Row(
-          //       children: [
-          //         SvgPicture.asset("assets/icons/key-solid30.svg"),
-          //         Container(
-          //           margin: EdgeInsets.only(
-          //             left: kDefaultMargin,
-          //           ),
-          //           child: Text("Password"),
-          //         ),
-          //       ],
-          //     ),
-          //   ),
-          // ),
           Container(
             decoration: BoxDecoration(
               color: Colors.white,
@@ -149,14 +129,17 @@ class ListDrawer extends StatelessWidget {
                           fontSize: 18,
                         ),
                       ),
-                      onPressed: () {
+                      onPressed: () async {
+                        await FirebaseAuth.instance.signOut();
+                        // context.go('/login');
+                        // Navigator.of(context).pop();
                         // Navigator.pushNamed(context, '/login');
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MyApp(),
-                          ),
-                        );
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => MyApp(),
+                        //   ),
+                        // );
                       },
                     ),
                   ),
@@ -164,36 +147,6 @@ class ListDrawer extends StatelessWidget {
               ],
             ),
           ),
-          // Positioned(
-          //   bottom: 0,
-          //   left: 0,
-          //   right: 0,
-          //   child: Container(
-          //     height: 55,
-          //     decoration: BoxDecoration(
-          //       color: Colors.green,
-          //     ),
-          //   ),
-          // ),
-
-          // ListTile(
-          //   title: Text('Item 1'),
-          //   onTap: () {
-          //     // Update the state of the app
-          //     // ...
-          //     // Then close the drawer
-          //     Navigator.pop(context);
-          //   },
-          // ),
-          // ListTile(
-          //   title: Text('Item 2'),
-          //   onTap: () {
-          //     // Update the state of the app
-          //     // ...
-          //     // Then close the drawer
-          //     Navigator.pop(context);
-          //   },
-          // ),
         ],
       ),
     );
@@ -202,13 +155,15 @@ class ListDrawer extends StatelessWidget {
 
 class ProfileDrawer extends StatelessWidget {
   const ProfileDrawer({
-    Key key,
-    this.nama,
-    this.phone,
-    this.email,
-  }) : super(key: key);
+    // Key key,
+    required this.nama,
+    // required this.phone,
+    required this.email,
+  }) ;
+  // : super(key: key);
 
-  final String nama, phone, email;
+  // final String nama, phone, email;
+  final String? nama, email;
 
   @override
   Widget build(BuildContext context) {
@@ -240,18 +195,18 @@ class ProfileDrawer extends StatelessWidget {
               ),
             ),
           ),
-          Container(
-            margin: EdgeInsets.only(
-              bottom: 5,
-            ),
-            child: Text(
-              "$phone",
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.white,
-              ),
-            ),
-          ),
+          // Container(
+          //   margin: EdgeInsets.only(
+          //     bottom: 5,
+          //   ),
+          //   child: Text(
+          //     "$phone",
+          //     style: TextStyle(
+          //       fontSize: 18,
+          //       color: Colors.white,
+          //     ),
+          //   ),
+          // ),
           Container(
             child: Text(
               "$email",

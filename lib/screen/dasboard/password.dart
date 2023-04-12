@@ -41,9 +41,9 @@ class ResetPassword extends StatelessWidget {
 }
 
 class Body extends StatelessWidget {
-  const Body({
-    Key key,
-  }) : super(key: key);
+  // const Body({
+  //   Key key,
+  // }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
