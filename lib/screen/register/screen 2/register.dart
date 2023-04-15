@@ -4,6 +4,7 @@ import 'package:call_me/model/User/users.dart';
 import 'package:call_me/screen/dasboard/dashboard.dart';
 import 'package:call_me/screen/register/material/BtmNav.dart';
 import 'package:call_me/screen/register/material/navbar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:call_me/screen/register/screen%201/register.dart';
 // import 'package:call_me/screen/register/screen%201/register.dart';
 // import 'package:call_me/screen/register/screen%203/register.dart';
@@ -13,8 +14,9 @@ import 'package:flutter/material.dart';
 final _formKey = GlobalKey<FormState>();
 final _firstNameController = TextEditingController();
 final _lastNameController = TextEditingController();
-final _messangerKey = GlobalKey<ScaffoldMessengerState>();
+// final _messangerKey = GlobalKey<ScaffoldMessengerState>();
 String _err = '';
+// final ScaffoldMessengerState _scaffold
 
 // For registering a new user
 Future<User?> registerUsingEmailPassword({
@@ -25,7 +27,7 @@ Future<User?> registerUsingEmailPassword({
 }) async {
   FirebaseAuth auth = FirebaseAuth.instance;
   User? user;
-  // _err = '';
+  _err = '';
   try {
     UserCredential userCredential = await auth.createUserWithEmailAndPassword(
       email: email,
@@ -35,6 +37,7 @@ Future<User?> registerUsingEmailPassword({
     await user!.updateDisplayName(name);
     await user.reload();
     user = await auth.currentUser;
+    storeUserDB(uid: user!.uid, name: user.displayName.toString(), email: user.email.toString());
     // print(user);
   } on FirebaseAuthException catch (e) {
     print("lamooooooooooooo");
@@ -52,10 +55,32 @@ Future<User?> registerUsingEmailPassword({
   return user;
 }
 
+void snackbarUtils(BuildContext context) {
+  Navigator.of(context).pop();
+}
+
+String storeUserDB({
+  required String uid,
+  required String name,
+  required String email,
+}){
+  FirebaseFirestore db = FirebaseFirestore.instance;
+  final user = <String, dynamic>{
+  "uid": uid,
+  "name": name,
+  "email": email
+  };
+  // db.collection("Users").add(user).then((DocumentReference doc) =>
+  //   print('DocumentSnapshot added with ID: ${doc.id}'));
+  db.collection("Users").doc(name[0].toUpperCase()).set(user,SetOptions(merge: false));
+  return '200';
+}
+
 class Register2 extends StatelessWidget {
   final String email;
   final String password;
-  Register2({Key? key, required this.email, required this.password}) : super(key: key);
+  final ScaffoldMessengerState? scaffoldmsg;
+  Register2({Key? key, required this.email, required this.password,this.scaffoldmsg}) : super(key: key);
     
   @override
   Widget build(BuildContext context) {
@@ -75,28 +100,27 @@ class Register2 extends StatelessWidget {
               );
               // print(user);
               if (_err.isNotEmpty) {
-                var snackBar =
-                  SnackBar(
-                    content: Padding(
-                      padding: EdgeInsets.only(
-                        left: 10
+                scaffoldmsg!.showSnackBar( // is this context <<<
+                    SnackBar(
+                      duration: const Duration(seconds: 1),
+                      content: Padding(
+                        padding: EdgeInsets.only(
+                          left: 10
+                        ),
+                        child: Text(
+                        _err,
+                        style: const TextStyle(fontSize: 16), 
+                        )
+                        ),
+                      behavior: SnackBarBehavior.floating,
+                      margin: EdgeInsets.only(
+                        bottom: size.height * 0.05,
+                        left: 10,
+                        right: 10,
                       ),
-                      // child: Text(_err),
-                      child: Text(
-                      _err,
-                      style: const TextStyle(fontSize: 16), 
-                      )
-                      ),
-                    behavior: SnackBarBehavior.floating,
-                    margin: EdgeInsets.only(
-                      bottom: size.height * 0.05,
-                      left: 10,
-                      right: 10,
-                    ),
+                    )
                   );
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
               }
-              // return const Dashboard();
             }
           },
         ),

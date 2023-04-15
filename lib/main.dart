@@ -1,8 +1,5 @@
-import 'package:call_me/constants.dart';
-import 'package:call_me/fire_auth.dart';
 import 'package:call_me/screen/dasboard/dashboard.dart';
-import 'package:call_me/screen/register/screen%201/register.dart';
-import 'package:call_me/screen/register/screen%202/register.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -12,21 +9,15 @@ import 'firebase_options.dart';
 import 'login.dart';
 
 late final FirebaseApp app;
+late final FirebaseFirestore firestore;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   app = await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  firestore = FirebaseFirestore.instanceFor(app: app);
   runApp(const MyApp());
-  // runApp(MaterialApp(
-  //     // title: "App",
-  //     home: const MyApp(),
-    //   theme: ThemeData(
-    //     primaryColor: kPrimaryColor,
-    //     appBarTheme: AppBarTheme(backgroundColor: kPrimaryColor),
-    //   )
-    // ));
 }
 
 
@@ -40,13 +31,11 @@ class MyApp extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.active) {
           if (snapshot.hasData) {
             if (snapshot.data!.displayName != null) {
-              print(snapshot.data);
               return const DashboardPage();
             }
             else{
               return const LoadingView();
             }
-            // return const Dashboard();
           }
           return const LoginPage();
         }else{

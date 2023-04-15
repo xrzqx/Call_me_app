@@ -7,6 +7,7 @@ import 'package:call_me/constants.dart';
 // final _formKeyLogin = GlobalKey<FormState>();
 final _emailTextController = TextEditingController();
 final _passwordTextController = TextEditingController();
+final _messangerKey = GlobalKey<ScaffoldMessengerState>();
 String err = '';
 var size;
 
@@ -45,6 +46,7 @@ class LoginPage extends StatelessWidget {
     // var size = MediaQuery.of(context);
     // print(err.length);
     return MaterialApp(
+      scaffoldMessengerKey: _messangerKey,
       home: Scaffold(
           body: Body(formkey: formKeyLogin),
           bottomNavigationBar: Btmnav(
@@ -55,15 +57,13 @@ class LoginPage extends StatelessWidget {
                   password:
                       _passwordTextController.text,
                 );
-                // print("err :" + "$errlen");
                 if (err.length > 0) {
-                                  var snackBar =
+                  _messangerKey.currentState!.showSnackBar( // is this context <<<
                     SnackBar(
                       content: Padding(
                         padding: EdgeInsets.only(
                           left: 10
                         ),
-                        // child: Text(_err),
                         child: Text(
                         err,
                         style: const TextStyle(fontSize: 16), 
@@ -75,8 +75,28 @@ class LoginPage extends StatelessWidget {
                         left: 10,
                         right: 10,
                       ),
-                    );
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    )
+                  );
+                  //                 var snackBar =
+                  //   SnackBar(
+                  //     content: Padding(
+                  //       padding: EdgeInsets.only(
+                  //         left: 10
+                  //       ),
+                  //       // child: Text(_err),
+                  //       child: Text(
+                  //       err,
+                  //       style: const TextStyle(fontSize: 16), 
+                  //       )
+                  //       ),
+                  //     behavior: SnackBarBehavior.floating,
+                  //     margin: EdgeInsets.only(
+                  //       bottom: size.height * 0.77,
+                  //       left: 10,
+                  //       right: 10,
+                  //     ),
+                  //   );
+                  // ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 }
               }
             },
@@ -220,7 +240,7 @@ class Btmnav extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Register(),
+                        builder: (context) => Register(_messangerKey.currentState),
                       ),
                     );
                   },

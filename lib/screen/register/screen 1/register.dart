@@ -3,10 +3,8 @@ import 'package:call_me/screen/register/material/BtmNav.dart';
 import 'package:call_me/screen/register/material/navbar.dart';
 import 'package:call_me/screen/register/screen%202/register.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../../../model/User/users.dart';
 // import 'package:flutter/model/User/users.dart';
 
 // import 'body.dart';
@@ -16,7 +14,8 @@ final _emailcontroller = TextEditingController();
 final _passwordcontroller = TextEditingController();
 
 class Register extends StatelessWidget {
-  const Register({Key? key}) : super(key: key);
+  final ScaffoldMessengerState? _scaffold;
+  const Register(this._scaffold, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +33,7 @@ class Register extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => Register2(email: _emailcontroller.text, password: _passwordcontroller.text),
+                builder: (context) => Register2(email: _emailcontroller.text, password: _passwordcontroller.text,scaffoldmsg: _scaffold,),
               ),
             );
           }
@@ -44,10 +43,6 @@ class Register extends StatelessWidget {
   }
 }
 
-//
-//
-//
-//
 class RegisBody extends StatefulWidget {
   @override
   _RegisBodyState createState() => _RegisBodyState();
@@ -61,9 +56,6 @@ class _RegisBodyState extends State<RegisBody> {
       child: Form(
         key: _formKey,
         child: Container(
-          // decoration: BoxDecoration(
-          //   color: Colors.white,
-          // ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
