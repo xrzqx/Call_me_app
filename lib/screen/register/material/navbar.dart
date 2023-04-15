@@ -13,8 +13,7 @@ class RegisNavbar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PreferredSize(
-      child: SafeArea(
+    return SafeArea(
         child: Container(
           decoration: BoxDecoration(color: Colors.white),
           child: Center(
@@ -44,9 +43,7 @@ class RegisNavbar extends StatelessWidget implements PreferredSizeWidget {
             ),
           ),
         ),
-      ),
-      preferredSize: Size.fromHeight(size.height * 0.15),
-    );
+      );
   }
 
   @override
@@ -54,3 +51,4 @@ class RegisNavbar extends StatelessWidget implements PreferredSizeWidget {
   // TODO: implement preferredSize
   Size get preferredSize => Size.fromHeight(size.height * 0.15);
 }
+

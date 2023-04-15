@@ -1,16 +1,13 @@
-// import 'package:call_me/fire_auth.dart';
-import 'package:call_me/screen/dasboard/dashboard.dart';
 import 'package:call_me/screen/register/screen%201/register.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:call_me/constants.dart';
 
-final _formKey = GlobalKey<FormState>();
+// final _formKeyLogin = GlobalKey<FormState>();
 final _emailTextController = TextEditingController();
 final _passwordTextController = TextEditingController();
-final _messangerKey = GlobalKey<ScaffoldMessengerState>();
 String err = '';
-int errlen = 0;
 var size;
 
 // For signing in an user (have already registered)
@@ -20,6 +17,7 @@ Future<User?> signInUsingEmailPassword({
 }) async {
   FirebaseAuth auth = FirebaseAuth.instance;
   User? user;
+  err = '';
   try {
     UserCredential userCredential = await auth.signInWithEmailAndPassword(
       email: email,
@@ -29,12 +27,10 @@ Future<User?> signInUsingEmailPassword({
   } on FirebaseAuthException catch (e) {
     if (e.code == 'user-not-found') {
       err = 'No user found for that email.';
-      errlen = err.length;
       // print('No user found for that email.');
     } else if (e.code == 'wrong-password') {
       // print('Wrong password provided.');
       err = 'Wrong password provided.';
-      errlen = err.length;
     }
   }
 
@@ -45,55 +41,54 @@ class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final formKeyLogin = GlobalKey<FormState>();
     // var size = MediaQuery.of(context);
     // print(err.length);
     return MaterialApp(
-      scaffoldMessengerKey: _messangerKey,
       home: Scaffold(
-        body: Body(),
-        bottomNavigationBar: Btmnav(
-          press: ()  async {
-            if(_formKey.currentState!.validate()) {
-              User? user = await signInUsingEmailPassword(
-                email: _emailTextController.text,
-                password:
-                    _passwordTextController.text,
-              );
-              // print("err :" + "$errlen");
-              if (err.length > 0) {
-                _messangerKey.currentState!.showSnackBar( // is this context <<<
-                  SnackBar(
-                    content: Padding(
-                      padding: EdgeInsets.only(
-                        left: 10
+          body: Body(formkey: formKeyLogin),
+          bottomNavigationBar: Btmnav(
+            press: ()  async {
+              if(formKeyLogin.currentState!.validate()) {
+                User? user = await signInUsingEmailPassword(
+                  email: _emailTextController.text,
+                  password:
+                      _passwordTextController.text,
+                );
+                // print("err :" + "$errlen");
+                if (err.length > 0) {
+                                  var snackBar =
+                    SnackBar(
+                      content: Padding(
+                        padding: EdgeInsets.only(
+                          left: 10
+                        ),
+                        // child: Text(_err),
+                        child: Text(
+                        err,
+                        style: const TextStyle(fontSize: 16), 
+                        )
+                        ),
+                      behavior: SnackBarBehavior.floating,
+                      margin: EdgeInsets.only(
+                        bottom: size.height * 0.77,
+                        left: 10,
+                        right: 10,
                       ),
-                      child: Text(
-                      err,
-                      style: const TextStyle(fontSize: 16), 
-                      )
-                      ),
-                    behavior: SnackBarBehavior.floating,
-                    margin: EdgeInsets.only(
-                      bottom: size.height * 0.77,
-                      left: 10,
-                      right: 10,
-                    ),
-                  
-                  ));
+                    );
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                }
               }
-            }
-          },
-        )
-      ),
-      theme: ThemeData(
-        primaryColor: kPrimaryColor,
-        appBarTheme: AppBarTheme(backgroundColor: kPrimaryColor),
-      ),
+            },
+          )
+        ),
     );
   }
 }
 
 class Body extends StatefulWidget {
+  final Key formkey;
+  const Body({super.key, required this.formkey});
   @override
   State<Body> createState() => _BodyState();
 }
@@ -103,7 +98,7 @@ class _BodyState extends State<Body> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Form(
-        key: _formKey,
+        key: widget.formkey,
         child: Container(
           child: Column(
             children: <Widget>[
@@ -144,6 +139,9 @@ class _BodyState extends State<Body> {
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter some text';
+                              }
+                              if (EmailValidator.validate(value) != true) {
+                                return 'Please enter valid email';
                               }
                               // user_stat.Email = value;
                               return null;
@@ -198,8 +196,6 @@ class _BodyState extends State<Body> {
         ),
       ),
     );
-
-    // bottomNavigationBar: Btmnav(),
   }
 }
 
@@ -266,14 +262,6 @@ class Btmnav extends StatelessWidget {
                     ),
                     onPressed: () => {press()},
                     
-                    // onPressed: () {
-                    //   Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //       builder: (context) => Dashboard(),
-                    //     ),
-                    //   );
-                    // },
                   ),
                 ],
               ),

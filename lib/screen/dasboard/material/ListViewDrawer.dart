@@ -1,4 +1,5 @@
 import 'package:call_me/constants.dart';
+import 'package:call_me/login.dart';
 import 'package:call_me/main.dart';
 import 'package:call_me/screen/dasboard/dashboard.dart';
 import 'package:call_me/screen/dasboard/password.dart';
@@ -8,13 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ListDrawer extends StatelessWidget {
-  // ListDrawer(User? data);
-  // User? user = data;
   final User? user;
   const ListDrawer({super.key, this.user});
-  // ListDrawer(String? displayName, String? email);
-  // String? displayName;
-  // String? email;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -26,7 +22,6 @@ class ListDrawer extends StatelessWidget {
             height: size.height * 0.20,
             child: DrawerHeader(
               child: Stack(
-                // crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Align(
                     child: Container(
@@ -131,15 +126,6 @@ class ListDrawer extends StatelessWidget {
                       ),
                       onPressed: () async {
                         await FirebaseAuth.instance.signOut();
-                        // context.go('/login');
-                        // Navigator.of(context).pop();
-                        // Navigator.pushNamed(context, '/login');
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => MyApp(),
-                        //   ),
-                        // );
                       },
                     ),
                   ),

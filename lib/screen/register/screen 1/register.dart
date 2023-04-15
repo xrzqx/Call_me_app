@@ -2,6 +2,7 @@ import 'package:call_me/constants.dart';
 import 'package:call_me/screen/register/material/BtmNav.dart';
 import 'package:call_me/screen/register/material/navbar.dart';
 import 'package:call_me/screen/register/screen%202/register.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -11,10 +12,11 @@ import '../../../model/User/users.dart';
 // import 'body.dart';
 
 final _formKey = GlobalKey<FormState>();
-Users user_stat = Users();
+final _emailcontroller = TextEditingController();
+final _passwordcontroller = TextEditingController();
 
 class Register extends StatelessWidget {
-  // final _formKey = GlobalKey<_RegisBodyState>();
+  const Register({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,16 +31,10 @@ class Register extends StatelessWidget {
         text: "Continue",
         press: () async {
           if (_formKey.currentState!.validate()) {
-            // User? user = await registerUsingEmailPassword(
-            //   email: _emailTextController.text,
-            //   password: _passwordTextController.text,
-            //   name: 'User Test'
-            // );
-            // // Process data.
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => Register2(user_stat),
+                builder: (context) => Register2(email: _emailcontroller.text, password: _passwordcontroller.text),
               ),
             );
           }
@@ -121,6 +117,7 @@ class _RegisBodyState extends State<RegisBody> {
                             ),
                           ),
                           TextFormField(
+                            controller: _emailcontroller,
                             style: TextStyle(
                               fontSize: 18,
                             ),
@@ -131,8 +128,10 @@ class _RegisBodyState extends State<RegisBody> {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter some text';
                               }
-                              user_stat.Email = value;
-                              
+                              if (EmailValidator.validate(value) != true) {
+                                return 'Please enter valid email';
+                              }
+                              // user_stat.Email = value;
                               return null;
                             },
                           ),
@@ -154,6 +153,7 @@ class _RegisBodyState extends State<RegisBody> {
                             ),
                           ),
                           TextFormField(
+                            controller: _passwordcontroller,
                             style: TextStyle(
                               fontSize: 18,
                             ),
@@ -162,9 +162,13 @@ class _RegisBodyState extends State<RegisBody> {
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please enter some text';
+                                return 'Please enter your password';
                               }
-                              user_stat.Password = value;
+                              if (value.length < 5) {
+                                return 'password must be at least contain 6 digits';
+                              }
+                              // _setConfirmPassword(value);
+                              // user_stat.Password = value;
                               return null;
                             },
                             obscureText: true
@@ -191,18 +195,15 @@ class _RegisBodyState extends State<RegisBody> {
                               fontSize: 18,
                             ),
                             decoration: InputDecoration(
-                              hintText: "password",
+                              hintText: "confirm password",
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please enter some text';
+                                return 'Please enter your password';
                               }
-                              if (user_stat.Password != value) {
+                              if (_passwordcontroller.text != value) {
                                 return 'Password doesnt match!!';
                               }
-                              // if (_passwordTextController.text != value) {
-                              //   return 'Password doesnt match!!';
-                              // }
                               return null;
                             },
                             obscureText: true
