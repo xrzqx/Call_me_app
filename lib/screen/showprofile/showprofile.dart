@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ShowProfile extends StatelessWidget {
+  final String name;
+  final String email;
+  const ShowProfile({super.key,required this.name,required this.email});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,7 +15,7 @@ class ShowProfile extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
-          "Alfareza",
+          "$name",
           style: TextStyle(
             fontSize: 22,
             color: Colors.white,
@@ -52,27 +55,27 @@ class ShowProfile extends StatelessWidget {
                 ),
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(
-                bottom: kDefaultMargin - 6,
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    child: SvgPicture.asset("assets/icons/phone30.svg"),
-                    margin: EdgeInsets.only(
-                      right: kDefaultMargin,
-                    ),
-                  ),
-                  Text(
-                    "+62 888555888",
-                    style: TextStyle(
-                      fontSize: 18,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            // Container(
+            //   margin: EdgeInsets.only(
+            //     bottom: kDefaultMargin - 6,
+            //   ),
+            //   child: Row(
+            //     children: [
+            //       Container(
+            //         child: SvgPicture.asset("assets/icons/phone30.svg"),
+            //         margin: EdgeInsets.only(
+            //           right: kDefaultMargin,
+            //         ),
+            //       ),
+            //       Text(
+            //         "+62 888555888",
+            //         style: TextStyle(
+            //           fontSize: 18,
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
             Container(
               margin: EdgeInsets.only(
                 bottom: kDefaultMargin - 6,
@@ -86,7 +89,7 @@ class ShowProfile extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "dito05@gmail.com",
+                    "$email",
                     style: TextStyle(
                       fontSize: 18,
                     ),
@@ -94,27 +97,27 @@ class ShowProfile extends StatelessWidget {
                 ],
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(
-                bottom: kDefaultMargin - 6,
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    child: SvgPicture.asset("assets/icons/address30.svg"),
-                    margin: EdgeInsets.only(
-                      right: kDefaultMargin,
-                    ),
-                  ),
-                  Text(
-                    "dito05@gmail.com",
-                    style: TextStyle(
-                      fontSize: 18,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            // Container(
+            //   margin: EdgeInsets.only(
+            //     bottom: kDefaultMargin - 6,
+            //   ),
+            //   child: Row(
+            //     children: [
+            //       Container(
+            //         child: SvgPicture.asset("assets/icons/address30.svg"),
+            //         margin: EdgeInsets.only(
+            //           right: kDefaultMargin,
+            //         ),
+            //       ),
+            //       Text(
+            //         "dito05@gmail.com",
+            //         style: TextStyle(
+            //           fontSize: 18,
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
           ],
         ),
       ),

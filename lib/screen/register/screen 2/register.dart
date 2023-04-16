@@ -37,43 +37,50 @@ Future<User?> registerUsingEmailPassword({
     await user!.updateDisplayName(name);
     await user.reload();
     user = await auth.currentUser;
-    storeUserDB(uid: user!.uid, name: user.displayName.toString(), email: user.email.toString());
+    await storeUserDB(uid: user!.uid, name: user.displayName.toString(), email: user.email.toString());
     // print(user);
   } on FirebaseAuthException catch (e) {
-    print("lamooooooooooooo");
     if (e.code == 'weak-password') {
       _err = 'The password provided is too weak.';
     } else if (e.code == 'email-already-in-use') {
-      print("11111111111111111111111111111111111111111111");
       _err = 'The account already exists for that email.';
     }
   } catch (e) {
-    print("ggggggggggggggggggggggggggggggggggggggg");
     print(e);
   }
 
   return user;
 }
 
-void snackbarUtils(BuildContext context) {
-  Navigator.of(context).pop();
-}
-
-String storeUserDB({
+Future<void> storeUserDB({
   required String uid,
   required String name,
   required String email,
-}){
+}) async {
   FirebaseFirestore db = FirebaseFirestore.instance;
-  final user = <String, dynamic>{
-  "uid": uid,
+  final user = {
+  // "uid": uid,
   "name": name,
   "email": email
   };
-  // db.collection("Users").add(user).then((DocumentReference doc) =>
-  //   print('DocumentSnapshot added with ID: ${doc.id}'));
-  db.collection("Users").doc(name[0].toUpperCase()).set(user,SetOptions(merge: false));
-  return '200';
+  final docData = {
+    uid: user
+  };
+  Map<String, dynamic>? listUser;
+  await db.collection("Users").doc(name[0].toUpperCase()).get().then((event) {
+    // listUser.addAll(event.data());
+    listUser = event.data();
+  });
+  if (listUser != null) {
+    listUser?.addAll(docData);
+  } else {
+    listUser = docData;
+  }
+  db.collection("Users")
+  .doc(name[0].toUpperCase())
+  .set(listUser!, SetOptions(merge: true))
+  .onError((e, _) => print("Error writing document: $e"));
+  // return '200';
 }
 
 class Register2 extends StatelessWidget {

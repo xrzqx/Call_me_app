@@ -107,32 +107,29 @@ class ListDrawer extends StatelessWidget {
                     ),
                   ),
                 ),
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: Container(
-                    height: 55,
-                    decoration: BoxDecoration(
-                      color: kPrimaryColor,
-                    ),
-                    child: TextButton(
-                      child: Text(
-                        "Log out",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                        ),
-                      ),
-                      onPressed: () async {
-                        await FirebaseAuth.instance.signOut();
-                      },
-                    ),
-                  ),
-                ),
+
               ],
             ),
           ),
+          Container(
+              height: 55,
+              decoration: BoxDecoration(
+                color: kPrimaryColor,
+              ),
+              child: TextButton(
+                child: Text(
+                  "Log out",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
+                ),
+                onPressed: () async {
+                  await FirebaseAuth.instance.signOut();
+                },
+              ),
+            ),
+          
         ],
       ),
     );
