@@ -2,6 +2,12 @@
 
 A new Flutter project.
 
+`local.properties`
+```
+flutter.minSdkVersion=21
+flutter.targetSdkVersion=30
+flutter.compileSdkVersion=31
+```
 ## Getting Started
 
 This project is a starting point for a Flutter application.
